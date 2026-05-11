@@ -212,4 +212,4 @@ Three guarantees the engine enforces:
 
 1. **No wall-clock reads inside the interpreter.** "Now" is `EvaluationContext.asOf`. `today()` and `now()` are deliberately absent from the [`FunctionRegistry`](../stdlib/src/main/java/ai/getfundflow/dsl/stdlib/FunctionRegistry.java); calling either raises `FF2003`.
 2. **Stable iteration order.** `outputs` is a `TreeMap`; `MapDataSource` sorts its backing store. Rerunning the same program with the same inputs yields a byte-identical SHA-256 audit hash (see `AuditTrail.contentHash()`).
-3. **Explicit rounding.** Money values are normalized to currency fraction digits (HALF_EVEN) at construction. `MathContext.DECIMAL64` is the default for intermediate calculations; rounding decisions are recorded in the audit trail.
+3. **Explicit rounding.** `Money.of(...)` rounds to currency fraction digits (HALF_EVEN) at the I/O boundary; intermediate arithmetic preserves `MathContext.DECIMAL64` precision; `Money.rounded()` applies output rounding explicitly. Use `Money.exact(...)` for per-unit prices and rates that must not round. Rounding decisions are recorded in the audit trail.

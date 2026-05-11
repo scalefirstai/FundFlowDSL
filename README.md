@@ -163,76 +163,77 @@ the `reinv_units` output — see *Friction* below for why.
 ## What worked cleanly
 
 - **Phrasal references resolve via the DataSource.** The DSL uses noun-phrase
-  inputs (`units held quarterly`, `distribution income`, `closing nav`,
+  inputs (`units held quarterly`, `distribution per unit`, `nav per unit`,
   `withholding rate`, `reinvest preference`) which the type checker leaves as
   `DEFERRED_REFERENCE` (FF9001, info-level). The runtime canonicalizes each
   phrase to a string key and reads it from `MapDataSource`. Same `.ff` source
   parses, type-checks, and evaluates without code changes.
 - **Per-event evaluation is fast.** 160 evaluator runs complete in well under
   100ms total; the spec's 500ms-per-validation target has a 1000× margin here.
-- **Number arithmetic carries exact precision.** All math runs at
+- **Mixed-type arithmetic carries exact precision.** All math runs at
   `MathContext.DECIMAL64`; the reference and the DSL produce byte-identical
-  `BigDecimal` values on every column.
+  `BigDecimal` values on every column — `Number × Money` (units × DPU),
+  `Money × Percentage` (gross × rate), `Money − Money` (gross − tax),
+  `Money / Money` (net / NAV-per-unit) all flow naturally.
 
-## What surfaced as friction (worth feeding back into the language)
+## Frictions surfaced — and the language fixes that closed them
 
-### 1. `Money`'s eager rounding clashes with per-unit rates
+The first attempt at this translation surfaced four frictions; three were
+fixed in the language itself rather than worked around in the rule. The
+fourth (per-event iteration) is left as future work.
 
-The VBA stores `dpu = 145000 / 1250000 = 0.116` as a double. The DSL's `Money`
-type normalizes amounts to currency fraction digits **at construction time**
-(`0.116 USD → 0.12 USD`), which corrupts per-unit prices and per-unit
-distribution rates immediately.
+### 1. `Money`'s eager rounding clashed with per-unit rates — FIXED
 
-**Workaround used here:** the test passes DPU and NAV as `NumberVal` (raw
-`BigDecimal`), not `MoneyVal`. The `.ff` does Number arithmetic throughout.
-The platform layer can wrap final gross / tax / net values as Money at the
-output boundary if it wants currency formatting — but the per-event math
-stays exact.
+**The friction:** `Money`'s compact constructor rounded amounts to currency
+fraction digits at construction, so `Money(0.116, USD)` silently became
+`0.12 USD`. Per-unit prices (DPU, NAV-per-unit) couldn't survive being
+wrapped as `Money`.
 
-**Cleaner fix for the language:** extend `Money` with a high-precision mode
-(or introduce a separate `Price` type with 4–6 decimal places). Fund accounting
-systems routinely need both: a 2-dp "settlement amount" and a 4–6-dp
-"per-unit price." `Money(value, currency, scale)` with scale defaulting to
-`currency.getDefaultFractionDigits()` would close this.
+**The fix:** rounding moved off the canonical record constructor and onto
+the input-boundary factory. `Money.of(amount, currency)` still rounds (the
+I/O entry point); `Money.exact(amount, currency)` constructs at full
+precision; arithmetic methods preserve `DECIMAL64` precision through the
+expression; `Money.rounded()` applies currency-fraction-digit rounding
+explicitly at the output boundary when the caller wants it.
 
-### 2. `Number * Percentage` returns `Percentage`, breaks `Number - Percentage`
+```java
+Money dpu = Money.exact("0.116", "USD");   // stays at 0.116, not 0.12
+Money gross = dpu.multiply(units);          // full precision through math
+Money settle = gross.rounded();             // explicit rounding for display
+```
 
-If `gross` is `NumberVal` and `rate` is `PercentVal`, then `gross * rate`
-returns `PercentVal` (under `Arithmetic.multiply`). The next line
-`net = gross - tax` then crosses types (`Number - Percent`), which
-`Arithmetic.subtract` rejects with an `EvaluationException`.
+The .ff now wraps DPU and NAV as `Money` (via `MoneyVal(Money.exact(…))`)
+without losing precision.
 
-**Workaround used here:** pass the tax rate as `NumberVal` (the raw ratio:
-`0.10`, `0.075`, `0.20`) rather than `PercentVal`. Keeps the math homogeneous
-in `Number` space.
+### 2. `Number * Percentage` promoted to `Percentage` — FIXED
 
-**Cleaner fix for the language:** the runtime rule could treat
-`Number * Percentage` as `Number * ratio = Number` rather than promoting the
-result to `Percentage`. Spec §6.2 explicitly defines `BigDecimal * Money →
-Money`, but is silent on `BigDecimal * Percentage`. The editorial choice in
-the runtime (promote to Percent) is semantically suspect for the common
-"apply a tax/fee rate to a quantity" pattern.
+**The friction:** the runtime treated `Number × Percent` as a `Percentage`
+result, so `tax = gross * rate` produced a `PercentVal` and `net = gross − tax`
+crashed on `Number − Percent`.
 
-### 3. `per` is a reserved word, blocking obvious noun phrases
+**The fix:** changed `Arithmetic.multiply` (runtime) and `TypeChecker.checkMul`
+(semantic) so `Number × Percentage = Number` — applying a rate to a quantity
+yields a quantity, matching spreadsheet semantics (`=100 * 10%` → `10`, not
+`10%`). `Percent × Percent` still composes as `Percent`. The .ff now passes
+the tax rate as `PercentVal` directly.
 
-The most natural names — `distribution per unit`, `nav per unit`,
-`tax per fund strategy` — would conflict with the `per annum` keyword pair
-in the lexer. The current DSL handles `per annum` as a multi-word token, so
-`per` alone is reserved.
+### 3. `per` was a reserved word, blocking obvious noun phrases — FIXED
 
-**Workaround used here:** rename to single-noun phrases that don't use `per`
-(`distribution income`, `closing nav`, `withholding rate`).
+**The friction:** `per` was tokenised as a hard keyword for the `per annum`
+construct, so the natural names `distribution per unit`, `nav per unit`,
+`tax per fund strategy` couldn't appear in noun phrases.
 
-**Cleaner fix for the language:** make `per` a contextual keyword (only
-treated specially when immediately followed by `annum`). The grammar can
-already do this with a parser-level disambiguation. Authoring would feel
-more natural.
+**The fix:** `PER` and `ANNUM` were merged into a single multi-word lexer
+token `PER_ANNUM` (same pattern as `AS_OF`). `per` alone now lexes as `IDENT`
+and flows freely into noun phrases. `1.5% per annum` still parses as
+`perAnnumExpr`; existing programs are unaffected. The .ff now reads
+`distribution per unit` and `nav per unit` directly.
 
-### 4. Per-event iteration is hosted, not in-DSL
+### 4. Per-event iteration is hosted, not in-DSL — future work
 
 The DSL describes the math for one event. The driver loops over the cartesian
-of `(investor × fund × quarter)` and invokes the evaluator per row. This is the
-correct factoring for a tree-walking runtime — but it means the
+of `(investor × fund × quarter)` and invokes the evaluator per row. This is
+the correct factoring for a tree-walking runtime, but it means the
 **iteration shape lives outside the rule** (in Java today; in the platform's
 job scheduler tomorrow).
 
@@ -242,13 +243,16 @@ per-row formula (with per-row tax rate, per-row reinvest pref) the way the
 VBA's nested loop can. A per-fund domain catalog (WP-12) plus a proper
 iteration primitive (e.g. `for each <name> in <set>: <rule body>`) would
 close the gap and let a single `.ff` express the whole macro instead of just
-the inner kernel.
+the inner kernel. This is a substantive language addition (new AST node, new
+runtime control-flow primitive, scope semantics) and is deliberately scoped
+out of this round.
 
 ## Decision summary
 
 For a real-world translation of an Excel macro that does per-row distribution
-math, the DSL is **expressive enough to capture the economic logic exactly**
-(zero numeric divergence across 160 events). The frictions surfaced are
-about **type-system ergonomics** (Money rounding, Number-Percent multiplication)
-and **iteration affordances** (DSL covers one event; driver covers the loop).
-Both are addressable without breaking the existing surface.
+math, the DSL captures the economic logic exactly (zero numeric divergence
+across 160 events). The three type-system frictions surfaced in the first
+attempt were addressed in the language — the rule now reads as the
+fund-accountant would phrase it (`distribution per unit`, `nav per unit`,
+`withholding rate` as `Percent`, gross/tax/net as `Money`) rather than being
+forced into raw `Number` workarounds.

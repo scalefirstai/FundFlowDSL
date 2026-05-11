@@ -63,11 +63,14 @@ final class Arithmetic {
         if (left instanceof NumberVal ln && right instanceof NumberVal rn) {
             return new NumberVal(ln.value().multiply(rn.value(), MC));
         }
+        // Number × Percentage applies the ratio to the quantity and stays in Number
+        // space (e.g. tax = gross * rate). Promoting the result to Percentage would
+        // break the common `gross - tax` pattern (Number - Percent is undefined).
         if (left instanceof PercentVal lp && right instanceof NumberVal rn) {
-            return new PercentVal(new Percentage(lp.value().asRatio().multiply(rn.value(), MC)));
+            return new NumberVal(lp.value().asRatio().multiply(rn.value(), MC));
         }
         if (left instanceof NumberVal ln && right instanceof PercentVal rp) {
-            return new PercentVal(new Percentage(rp.value().asRatio().multiply(ln.value(), MC)));
+            return new NumberVal(rp.value().asRatio().multiply(ln.value(), MC));
         }
         throw new EvaluationException("cannot multiply " + left + " * " + right);
     }

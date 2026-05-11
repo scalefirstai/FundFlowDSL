@@ -10,7 +10,7 @@ All types live in `ai.getfundflow.dsl.core.types` (with calendars in `ai.getfund
 public record Money(BigDecimal amount, Currency currency)
 ```
 
-The `amount` is normalized to the currency's default fraction digits on construction (HALF_EVEN). JPY is therefore stored at scale 0; USD/EUR at scale 2.
+`Money.of(amount, currency)` is the input-boundary factory: it rounds to the currency's default fraction digits (HALF_EVEN). JPY arrives at scale 0; USD/EUR at scale 2. Arithmetic methods preserve `MathContext.DECIMAL64` precision; `Money.rounded()` applies currency-fraction-digit rounding at the output boundary. `Money.exact(amount, currency)` constructs a `Money` at full precision for per-unit prices and rates that mustn't round (DPU, NAV-per-unit).
 
 ```java
 Money fee  = Money.of("1000000", "USD").multiply(Percentage.ofPercent("2"));   // USD 20000.00
@@ -18,6 +18,10 @@ Money jpy  = Money.of("1000.49", "JPY");                                       /
 Money sum  = Money.of("100", "USD").plus(Money.of("250.50", "USD"));           // USD 350.50
 Money flip = Money.of("100", "USD").negate();                                  // USD -100.00
 Money eur  = Money.of("100", "USD").convert(usdToEur);                         // EUR ...
+
+Money dpu  = Money.exact("0.116", "USD");          // stays at 0.116 — per-unit rate
+Money gross = dpu.multiply(new BigDecimal("250")); // USD 29.000 — full precision
+Money settle = gross.rounded();                    // USD 29.00 — rounded for display
 ```
 
 Mismatched-currency arithmetic throws `CurrencyMismatchException`.

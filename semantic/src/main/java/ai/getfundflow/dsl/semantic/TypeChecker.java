@@ -367,8 +367,11 @@ public final class TypeChecker {
         if (left instanceof BigDecimalType && right instanceof BigDecimalType) {
             return BigDecimalType.INSTANCE;
         }
-        if (left instanceof BigDecimalType && right instanceof PercentageType) return PercentageType.INSTANCE;
-        if (left instanceof PercentageType && right instanceof BigDecimalType) return PercentageType.INSTANCE;
+        // Number × Percentage stays in Number space — applying a rate to a quantity
+        // yields a quantity, not a rate. Promoting to Percentage would break
+        // `gross - tax` where tax = gross * rate.
+        if (left instanceof BigDecimalType && right instanceof PercentageType) return BigDecimalType.INSTANCE;
+        if (left instanceof PercentageType && right instanceof BigDecimalType) return BigDecimalType.INSTANCE;
         error(DiagnosticCode.INVALID_OPERAND,
                 "cannot multiply " + left.describe() + " and " + right.describe());
         return UnknownType.INSTANCE;

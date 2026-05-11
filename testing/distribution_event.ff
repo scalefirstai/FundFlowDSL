@@ -3,31 +3,23 @@
 // One DSL rule, evaluated once per (investor, fund, quarter) tuple. The driver
 // supplies each row's inputs via the DataSource keyed by canonical noun phrase:
 //
-//   units held quarterly  → Number      (units held at period end)
-//   distribution income   → Number      (period DPU = distributable income / units outstanding)
-//   closing nav           → Number      (end-of-period NAV per unit)
-//   withholding rate      → Percentage  (lookup: tax_class × fund strategy)
-//   reinvest preference   → Boolean     (true if investor pref = "Reinvest")
+//   units held quarterly   → Number      (units held at period end)
+//   distribution per unit  → Money       (period DPU, kept at full precision)
+//   nav per unit           → Money       (end-of-period NAV per unit)
+//   withholding rate       → Percentage  (lookup: tax_class × fund strategy)
+//   reinvest preference    → Boolean     (true if investor pref = "Reinvest")
 //
-// Note on currency handling: the VBA uses double-precision for all amounts.
-// FundFlow's core Money type normalizes to currency fraction digits (2 dp for
-// USD) at construction, which rounds DPU like `145000 / 1250000 = 0.116`
-// down to `0.12` — visibly wrong for per-unit rates. So this rule does the
-// math in Number space (BigDecimal under the hood, MathContext.DECIMAL64).
-// The platform layer can wrap the final gross / tax / net values as Money
-// at the I/O boundary if it wants currency formatting; the per-event math
-// stays exact.
-//
-// `per` is a reserved word for `per annum`, so we use noun phrases like
-// "distribution income" rather than "distribution per unit".
+// Money arithmetic preserves DECIMAL64 precision through the rule body; the
+// platform layer can apply `Money.rounded()` at the output boundary if it
+// wants currency-fraction-digit display.
 rule "Quarterly Distribution Event" {
   description: "Per-(investor, fund, quarter) NAV-based income distribution: gross income, withholding tax, net payout, and optional reinvestment in units."
   applies to: investor
   effective: from 2025-01-01 to 2025-12-31
 
   let u    = units held quarterly
-  let dpu  = distribution income
-  let nav  = closing nav
+  let dpu  = distribution per unit
+  let nav  = nav per unit
   let rate = withholding rate
 
   let gross       = u * dpu

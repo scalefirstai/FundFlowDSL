@@ -145,7 +145,7 @@ expression
     : expression AS_OF dateExpr                                              # asOfExpr
     | expression AT (START|END) OF periodExpr                                # atBoundaryExpr
     | expression OVER periodExpr (USING inner=dayCountExpr)?                 # overExpr
-    | expression PER ANNUM                                                   # perAnnumExpr
+    | expression PER_ANNUM                                                   # perAnnumExpr
     | NOT expression                                                         # notExpr
     | expression op=(STAR|SLASH) expression                                  # mulDivExpr
     | expression op=(PLUS|MINUS) expression                                  # addSubExpr

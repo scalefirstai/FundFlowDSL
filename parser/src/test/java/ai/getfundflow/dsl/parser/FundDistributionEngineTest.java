@@ -205,16 +205,11 @@ class FundDistributionEngineTest {
                 Period period = periods.get(h.fundCode + "|" + QUARTERS.get(q));
                 if (period == null) continue;
 
-                // All amounts supplied as raw BigDecimal — see the .ff header for
-                // why we don't wrap as Money here.
                 Map<String, RuntimeValue> data = new HashMap<>();
                 data.put("units held quarterly", new NumberVal(units));
-                data.put("distribution income", new NumberVal(period.dpu));
-                data.put("closing nav", new NumberVal(period.nav));
-                // Passed as Number, not Percent: Number * Percent → Percent in the runtime,
-                // which would make `net = gross - tax` cross-typed (Number - Percent). Keeping
-                // the math homogeneous in Number space sidesteps that.
-                data.put("withholding rate", new NumberVal(rate));
+                data.put("distribution per unit", new MoneyVal(Money.exact(period.dpu, USD)));
+                data.put("nav per unit", new MoneyVal(Money.exact(period.nav, USD)));
+                data.put("withholding rate", new PercentVal(new Percentage(rate)));
                 data.put("reinvest preference", new BoolVal(inv.pref.equals("Reinvest")));
 
                 EvaluationContext ctx = new EvaluationContext(

@@ -58,8 +58,10 @@ WATERFALL   : W A T E R F A L L ;
 
 // Domain qualifiers
 INCEPTION   : I N C E P T I O N ;
-PER         : P E R ;
-ANNUM       : A N N U M ;
+// `per annum` is matched as a single multi-word token so `per` alone falls
+// through to IDENT and can appear inside noun phrases like
+// `distribution per unit` or `nav per unit`.
+PER_ANNUM   : P E R WS_INLINE A N N U M ;
 NARRATIVE   : N A R R A T I V E ;
 
 // Logic
