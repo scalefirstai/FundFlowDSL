@@ -29,7 +29,7 @@
 
         <antlr.version>4.13.2</antlr.version>
         <junit.version>5.10.2</junit.version>
-        <assertj.version>3.25.3</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <jqwik.version>1.8.5</jqwik.version>
         <lsp4j.version>0.21.2</lsp4j.version>
         <anthropic-java.version>2.17.0</anthropic-java.version>
