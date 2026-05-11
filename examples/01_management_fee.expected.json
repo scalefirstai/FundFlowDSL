@@ -1,0 +1,20 @@
+{
+  "rule": "Management Fee Daily Accrual",
+  "asOf": "2026-03-15",
+  "fixtures": {
+    "opening nav of share class": "USD 10,000,000.00"
+  },
+  "expected": {
+    "outputs": {},
+    "postings": [
+      {
+        "date": "2026-03-15",
+        "account": "ledger account \"Management Fee Payable\"",
+        "amount": "USD 410.96",
+        "narrative": "Daily mgmt fee accrual",
+        "sourceRule": "Management Fee Daily Accrual"
+      }
+    ]
+  },
+  "derivation": "10,000,000 USD * 0.015 (1.5% per annum) * 1/365 (one-day actual/365 fraction) = 410.96 USD"
+}

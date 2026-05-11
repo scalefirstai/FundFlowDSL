@@ -1,0 +1,3 @@
+rule "Sum No Of" {
+  let x = sum fee
+}

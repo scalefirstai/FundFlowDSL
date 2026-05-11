@@ -1,0 +1,3 @@
+rule "Leading Compare" {
+  let x = < a
+}

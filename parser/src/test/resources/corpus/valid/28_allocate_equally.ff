@@ -1,0 +1,3 @@
+rule "Allocate Equally" {
+  allocate USD 100,000 across investors of fund equally
+}

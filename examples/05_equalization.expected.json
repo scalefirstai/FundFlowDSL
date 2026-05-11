@@ -1,0 +1,24 @@
+{
+  "rule": "Series Equalization Crystallization",
+  "asOf": "2026-12-31",
+  "fixtures": {
+    "current nav of series \"A\"":      "USD 12,000,000.00",
+    "side pocket nav of series \"A\"":  "USD 1,000,000.00",
+    "high water mark of series \"A\"":  "USD 10,000,000.00",
+    "current nav of series \"B\"":      "USD 9,500,000.00",
+    "side pocket nav of series \"B\"":  "USD 0.00",
+    "high water mark of series \"B\"":  "USD 10,000,000.00"
+  },
+  "expected": {
+    "outputs": {},
+    "postings": [
+      {
+        "account": "ledger account \"Performance Fee — Series A\"",
+        "amount":  "USD 200,000.00",
+        "narrative": "Series A perf fee crystallization",
+        "_derivation": "perf_nav 11M − HWM 10M = appreciation 1M; 20% × 1M = 200k fee"
+      }
+    ],
+    "_derivation_series_b": "perf_nav 9.5M < HWM 10M → appreciation 0 → fee 0; the when-guard skips the post"
+  }
+}

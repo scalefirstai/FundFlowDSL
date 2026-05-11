@@ -1,0 +1,5 @@
+rule "Already Defined" {
+  description: "module must come first"
+}
+
+module fundflow.examples.basic

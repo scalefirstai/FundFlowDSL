@@ -1,0 +1,4 @@
+rule "Multi-Word Qualified" {
+  let basis = unfunded commitment of investor as of call date
+  let agg = sum of accrued expenses
+}

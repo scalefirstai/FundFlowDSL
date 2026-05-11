@@ -1,0 +1,3 @@
+rule "Per Without Annum" {
+  let rate = 1.5% per
+}

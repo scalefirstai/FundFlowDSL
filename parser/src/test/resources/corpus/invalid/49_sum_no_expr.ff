@@ -1,0 +1,3 @@
+rule "Sum No Expr" {
+  let x = sum of
+}

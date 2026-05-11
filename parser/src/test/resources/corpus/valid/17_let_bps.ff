@@ -1,0 +1,4 @@
+rule "Let Bps" {
+  let spread_a = 25 bps
+  let spread_b = 100 bps
+}

@@ -1,0 +1,3 @@
+rule "Post Each Allocation" {
+  post each allocation to ledger account "Capital Called Receivable"
+}

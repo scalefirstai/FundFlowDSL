@@ -1,0 +1,3 @@
+rule "Applies Missing To" {
+  applies : fund "Acme"
+}

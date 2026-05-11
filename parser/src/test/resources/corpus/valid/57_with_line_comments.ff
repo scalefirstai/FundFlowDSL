@@ -1,0 +1,7 @@
+// top-level comment
+rule "Has Comments" {
+  // this is a clause comment
+  description: "rules can have comments"
+  // another comment
+  let x = 1.5%  // inline comment after let
+}

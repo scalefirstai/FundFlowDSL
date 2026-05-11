@@ -1,0 +1,5 @@
+rule "NAV at Boundary" {
+  let opening = nav at start of period
+  let closing = nav at end of period
+  let delta = nav at end of period - nav at start of period
+}

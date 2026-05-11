@@ -1,0 +1,3 @@
+rule "Func Missing Close" {
+  let x = max(0, above_hwm
+}

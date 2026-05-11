@@ -1,0 +1,8 @@
+rule "Date Functions" {
+  let yr      = year(valuation_date)
+  let mo      = month(valuation_date)
+  let dy      = day(valuation_date)
+  let next_q  = edate(valuation_date, 3)
+  let q_end   = eomonth(valuation_date, 0)
+  let span    = datediff(start_date, end_date, "days")
+}

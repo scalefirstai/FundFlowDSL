@@ -1,0 +1,3 @@
+rule "Distribute Missing Waterfall Kw" {
+  distribute amount through "European"
+}

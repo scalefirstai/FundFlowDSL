@@ -1,0 +1,5 @@
+rule "Let Aggregations" {
+  let total_mv = sum of position market value
+  let by_class = sum of fee by share class
+  let warr = weighted average return weighted by capital
+}

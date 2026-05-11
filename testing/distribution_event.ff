@@ -1,0 +1,42 @@
+// Translation of the VBA `RunDistributionCalculation` per-event math.
+//
+// One DSL rule, evaluated once per (investor, fund, quarter) tuple. The driver
+// supplies each row's inputs via the DataSource keyed by canonical noun phrase:
+//
+//   units held quarterly  → Number      (units held at period end)
+//   distribution income   → Number      (period DPU = distributable income / units outstanding)
+//   closing nav           → Number      (end-of-period NAV per unit)
+//   withholding rate      → Percentage  (lookup: tax_class × fund strategy)
+//   reinvest preference   → Boolean     (true if investor pref = "Reinvest")
+//
+// Note on currency handling: the VBA uses double-precision for all amounts.
+// FundFlow's core Money type normalizes to currency fraction digits (2 dp for
+// USD) at construction, which rounds DPU like `145000 / 1250000 = 0.116`
+// down to `0.12` — visibly wrong for per-unit rates. So this rule does the
+// math in Number space (BigDecimal under the hood, MathContext.DECIMAL64).
+// The platform layer can wrap the final gross / tax / net values as Money
+// at the I/O boundary if it wants currency formatting; the per-event math
+// stays exact.
+//
+// `per` is a reserved word for `per annum`, so we use noun phrases like
+// "distribution income" rather than "distribution per unit".
+rule "Quarterly Distribution Event" {
+  description: "Per-(investor, fund, quarter) NAV-based income distribution: gross income, withholding tax, net payout, and optional reinvestment in units."
+  applies to: investor
+  effective: from 2025-01-01 to 2025-12-31
+
+  let u    = units held quarterly
+  let dpu  = distribution income
+  let nav  = closing nav
+  let rate = withholding rate
+
+  let gross       = u * dpu
+  let tax         = gross * rate
+  let net         = gross - tax
+  let reinv_units = net / nav
+
+  publish gross
+  publish tax
+  publish net
+  publish reinv_units
+}

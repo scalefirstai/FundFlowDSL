@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ai.getfundflow</groupId>
+        <artifactId>fundflow-dsl-parent</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>fundflow-dsl-lsp</artifactId>
+    <name>FundFlow DSL :: lsp</name>
+    <description>Language Server Protocol implementation for the FundFlow DSL (WP-9).</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-ast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-stdlib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-parser</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-semantic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ai.getfundflow</groupId>
+            <artifactId>fundflow-dsl-diagnostics</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.lsp4j</groupId>
+            <artifactId>org.eclipse.lsp4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+    </dependencies>
+</project>

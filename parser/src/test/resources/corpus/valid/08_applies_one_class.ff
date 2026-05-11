@@ -1,0 +1,3 @@
+rule "One Class" {
+  applies to: share class "Class A" of fund "Acme Master"
+}

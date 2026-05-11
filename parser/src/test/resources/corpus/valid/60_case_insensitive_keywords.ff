@@ -1,0 +1,7 @@
+RULE "Mixed Case Keywords" {
+  Description: "keywords should be case-insensitive"
+  Applies To: fund "Mixed Case Test"
+  EFFECTIVE: FROM 2026-01-01
+  Let x = 1
+  ACCRUE rate ON basis USING actual/365
+}

@@ -1,0 +1,4 @@
+rule "Per Annum" {
+  let mgmt = 1.5% per annum
+  let perf = 8% per annum
+}

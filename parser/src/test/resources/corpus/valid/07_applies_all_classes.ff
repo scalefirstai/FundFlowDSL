@@ -1,0 +1,3 @@
+rule "All Classes" {
+  applies to: all share classes of fund "Acme Master"
+}

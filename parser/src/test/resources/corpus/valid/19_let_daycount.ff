@@ -1,0 +1,6 @@
+rule "Let DayCount" {
+  let dc1 = actual/360
+  let dc2 = actual/365
+  let dc3 = 30/360
+  let dc4 = actual/actual
+}

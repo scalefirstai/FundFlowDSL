@@ -1,0 +1,3 @@
+rule "Distribute" {
+  distribute distributable through waterfall "European Waterfall"
+}

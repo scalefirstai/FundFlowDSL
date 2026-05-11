@@ -1,0 +1,3 @@
+rule "Allocate Missing Across" {
+  allocate USD 100,000 investors of fund equally
+}

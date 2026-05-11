@@ -1,0 +1,9 @@
+rule "Financial Functions" {
+  let net_pv     = npv(discount_rate, fund_cashflows)
+  let project_irr = irr(fund_cashflows)
+  let xpresent   = xnpv(discount_rate, dated_cashflows, cashflow_dates)
+  let xreturn    = xirr(dated_cashflows, cashflow_dates)
+  let pv_annuity = pv(rate, periods, payment)
+  let fv_annuity = fv(rate, periods, payment, principal)
+  let installment = pmt(monthly_rate, term_months, loan_amount)
+}

@@ -1,0 +1,4 @@
+rule "Unary Not" {
+  let inverted = not closed
+  let combined = not (a and b)
+}

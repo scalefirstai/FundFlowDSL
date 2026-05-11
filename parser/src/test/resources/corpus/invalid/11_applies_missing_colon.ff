@@ -1,0 +1,3 @@
+rule "Applies Missing Colon" {
+  applies to fund "Acme Master"
+}

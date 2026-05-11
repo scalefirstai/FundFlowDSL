@@ -1,0 +1,3 @@
+rule "Weighted No Average" {
+  let x = weighted return weighted by capital
+}

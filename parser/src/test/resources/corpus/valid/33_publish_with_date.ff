@@ -1,0 +1,3 @@
+rule "Publish NAV" {
+  publish nav as of valuation date
+}

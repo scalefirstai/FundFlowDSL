@@ -1,0 +1,5 @@
+rule "Nested When" {
+  when a > b then
+    when c > d then publish first
+    else publish second
+}

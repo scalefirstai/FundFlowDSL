@@ -1,0 +1,3 @@
+rule "At Boundary No Period" {
+  let x = nav at end of
+}

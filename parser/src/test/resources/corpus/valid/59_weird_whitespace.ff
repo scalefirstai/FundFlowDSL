@@ -1,0 +1,9 @@
+rule    "Weird Whitespace"   {
+
+    description :   "extra spaces"
+
+    let     x    =    1
+
+
+    let y = 2
+}

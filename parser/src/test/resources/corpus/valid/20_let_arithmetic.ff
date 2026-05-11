@@ -1,0 +1,5 @@
+rule "Let Arithmetic" {
+  let total = a + b - c
+  let scaled = base * 2
+  let ratio = numerator / denominator
+}

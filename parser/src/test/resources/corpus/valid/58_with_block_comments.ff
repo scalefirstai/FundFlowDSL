@@ -1,0 +1,7 @@
+/* file-level
+   block comment */
+rule "Block Comments" {
+  /* block comment in body */
+  description: "ok"
+  let x = /* inline block */ 1
+}

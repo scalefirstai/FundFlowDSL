@@ -1,0 +1,3 @@
+rule "When Missing Cond" {
+  when then publish fee
+}

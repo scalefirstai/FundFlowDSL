@@ -1,0 +1,3 @@
+rule UnquotedName {
+  description: "rule names must be quoted strings"
+}

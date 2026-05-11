@@ -1,0 +1,5 @@
+rule "Let Money" {
+  let amount = USD 1,250,000.00
+  let euros  = EUR 50_000
+  let yen    = JPY 1_000_000
+}

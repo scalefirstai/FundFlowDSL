@@ -1,0 +1,3 @@
+rule "Accrue Missing Using" {
+  accrue rate on basis actual/365
+}

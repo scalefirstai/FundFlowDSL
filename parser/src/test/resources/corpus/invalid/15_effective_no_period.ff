@@ -1,0 +1,3 @@
+rule "Effective Without Period" {
+  effective:
+}

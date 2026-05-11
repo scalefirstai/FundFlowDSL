@@ -1,0 +1,3 @@
+rule "When Missing Then" {
+  when fee > USD 0 publish fee
+}

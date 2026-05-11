@@ -1,0 +1,3 @@
+rule "Distribute Missing Through" {
+  distribute amount waterfall "European"
+}

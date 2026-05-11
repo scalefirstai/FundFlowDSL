@@ -1,0 +1,5 @@
+rule "Already Defined" {
+  description: "imports must come before rules"
+}
+
+import fundflow.stdlib.fees

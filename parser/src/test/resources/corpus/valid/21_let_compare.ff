@@ -1,0 +1,6 @@
+rule "Let Compare" {
+  let above = nav > USD 1000
+  let below_or_eq = liabilities <= assets
+  let exactly = current_units == prior_units
+  let differ = current != prior
+}

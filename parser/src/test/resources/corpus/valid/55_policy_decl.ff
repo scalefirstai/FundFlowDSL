@@ -1,0 +1,3 @@
+policy "Rounding Policy" {
+  description: "default rounding rules for the fund"
+}

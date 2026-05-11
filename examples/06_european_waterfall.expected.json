@@ -1,0 +1,22 @@
+{
+  "rule": "Realize Fund Distribution",
+  "waterfall": "European Waterfall",
+  "asOf": "2026-12-31",
+  "fixtures": {
+    "total realized proceeds for period": "USD 200,000,000.00",
+    "total drawn capital":                 "USD 100,000,000.00"
+  },
+  "expected": {
+    "outputs": {},
+    "postings": [
+      {"account": "ledger account \"LP — Return of Capital\"",      "amount": "USD 100,000,000.00", "narrative": "Tier 1: return of capital"},
+      {"account": "ledger account \"LP — Preferred Return\"",       "amount": "USD 8,000,000.00",   "narrative": "Tier 2: 8% preferred return"},
+      {"account": "ledger account \"GP — Catch-up\"",               "amount": "USD 2,000,000.00",   "narrative": "Tier 3: GP catch-up"},
+      {"account": "ledger account \"LP — Carried Profit Share\"",   "amount": "USD 72,000,000.00",  "narrative": "Tier 4: LP 80% of remaining"},
+      {"account": "ledger account \"GP — Carried Interest\"",       "amount": "USD 18,000,000.00",  "narrative": "Tier 4: GP 20% of remaining"}
+    ],
+    "_check_total":      "100M + 8M + 2M + 72M + 18M = 200M (matches proceeds)",
+    "_lp_total_share":   "100M + 8M + 72M = 180M (90% of 200M)",
+    "_gp_total_share":   "2M + 18M = 20M (10% of 200M, which is 20% of profit-after-pref)"
+  }
+}

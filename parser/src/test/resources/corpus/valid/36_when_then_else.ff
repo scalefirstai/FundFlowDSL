@@ -1,0 +1,5 @@
+rule "When Then Else" {
+  when fee > USD 0
+    then post fee to ledger account "Performance Fee"
+    else publish skipped
+}

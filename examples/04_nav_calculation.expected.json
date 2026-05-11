@@ -1,0 +1,17 @@
+{
+  "rule": "Daily NAV Strike",
+  "asOf": "2026-03-31",
+  "fixtures": {
+    "position market value as of valuation date": ["USD 95,000,000.00", "USD 12,000,000.00", "USD 3,000,000.00"],
+    "accrued expenses + payables as of valuation date": ["USD 250,000.00", "USD 750,000.00"],
+    "units outstanding as of valuation date": "950000",
+    "nav as of valuation date": "USD 110,000,000.00"
+  },
+  "expected": {
+    "outputs": {
+      "Daily NAV Strike:nav as of valuation date": "USD 110,000,000.00"
+    },
+    "postings": [],
+    "_derivation": "let-bindings populate gross_assets, liabilities, net_assets, units, nav_per_unit; the rule publishes the phrasal `nav as of valuation date` directly from the data source — net_assets is computed but not posted."
+  }
+}

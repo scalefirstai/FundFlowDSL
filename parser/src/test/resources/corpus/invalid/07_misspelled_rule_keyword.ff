@@ -1,0 +1,3 @@
+rul "Misspelled Keyword" {
+  description: "rule keyword is misspelled"
+}

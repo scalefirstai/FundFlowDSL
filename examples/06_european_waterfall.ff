@@ -1,0 +1,46 @@
+// European-style PE waterfall: return-of-capital, then preferred return,
+// then GP catch-up, then 80/20 split. Each tier consumes from `distributable`
+// (the named magic binding inside a waterfall body that holds the input amount).
+waterfall "European Waterfall" {
+  // Tier 1 — Return of Capital: pay LP back their drawn capital first.
+  let invested_capital   = total drawn capital
+  let return_of_capital  = min(distributable, invested_capital)
+  post return_of_capital to ledger account "LP — Return of Capital"
+    with narrative "Tier 1: return of capital"
+
+  // Tier 2 — Preferred Return: 8% on invested capital.
+  let after_roc          = distributable - return_of_capital
+  let pref_rate          = 8%
+  let pref_target        = invested_capital * pref_rate
+  let pref_paid          = min(after_roc, pref_target)
+  post pref_paid to ledger account "LP — Preferred Return"
+    with narrative "Tier 2: 8% preferred return"
+
+  // Tier 3 — GP Catch-up: pay GP until they hold 20% of (pref_paid + catch_up).
+  // Solving: catch_up = 0.25 * pref_paid (so that 0.20 * (pref_paid + catch_up) = catch_up).
+  let after_pref         = after_roc - pref_paid
+  let catch_up_target    = pref_paid * 25%
+  let catch_up_paid      = min(after_pref, catch_up_target)
+  post catch_up_paid to ledger account "GP — Catch-up"
+    with narrative "Tier 3: GP catch-up"
+
+  // Tier 4 — 80/20 Split: remaining proceeds split LP 80%, GP 20%.
+  let after_catch_up     = after_pref - catch_up_paid
+  let lp_carry_share     = after_catch_up * 80%
+  let gp_carry_share     = after_catch_up * 20%
+  post lp_carry_share to ledger account "LP — Carried Profit Share"
+    with narrative "Tier 4: LP 80% of remaining"
+  post gp_carry_share to ledger account "GP — Carried Interest"
+    with narrative "Tier 4: GP 20% of remaining"
+}
+
+rule "Realize Fund Distribution" {
+  description: "Run the European waterfall against the period's realized proceeds"
+  applies to: fund "Beta PE Fund III"
+  effective: from 2026-01-01
+
+  let proceeds = total realized proceeds for period
+
+  when proceeds > USD 0 then
+    distribute proceeds through waterfall "European Waterfall"
+}

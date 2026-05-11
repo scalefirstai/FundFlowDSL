@@ -1,0 +1,3 @@
+rule "Post Simple" {
+  post fee to ledger account "Management Fee Payable"
+}

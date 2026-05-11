@@ -1,0 +1,3 @@
+rule "Post With Narrative" {
+  post fee to ledger account "Mgmt Fee" with narrative "Daily accrual"
+}

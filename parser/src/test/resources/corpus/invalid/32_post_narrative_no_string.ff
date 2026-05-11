@@ -1,0 +1,3 @@
+rule "Narrative No String" {
+  post fee to ledger account "Mgmt Fee" with narrative
+}

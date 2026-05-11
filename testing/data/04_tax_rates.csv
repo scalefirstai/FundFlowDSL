@@ -1,0 +1,8 @@
+Tax Class,Description,Equity Fund Rate,Hybrid Fund Rate,Debt Fund Rate
+Resident,Resident individual (regular),0.1,0.1,0.1
+Senior,Senior citizen (60+),0.075,0.075,0.075
+NRI,Non-resident Indian,0.2,0.2,0.2
+Domestic Co,Domestic corporate,0.1,0.1,0.1
+Foreign Co,Foreign corporate,0.2,0.2,0.2
+Trust,Private/family trust,0.1,0.1,0.1
+Trust Exempt,Pension/endowment (tax-exempt),0.0,0.0,0.0

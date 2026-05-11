@@ -1,0 +1,33 @@
+// Synthetic end-to-end exercise: every WP-6 operator in one file.
+// All phrasal references are pre-loaded into the test's MapDataSource.
+waterfall "Linear Distribution" {
+  post distributable to ledger account "GP Carried Interest"
+}
+
+rule "Period Mgmt Fee" {
+  description: "annual fee pro-rated to a partial period"
+  effective: from 2026-01-01
+
+  let annual_fee = USD 120,000
+  let partial    = annual_fee over from 2026-01-01 to 2026-04-01 using actual/365
+
+  publish partial
+}
+
+rule "Capital Call Allocation" {
+  description: "split call across investors by their commitment weight"
+
+  let call_amount = USD 1,000,000
+
+  allocate call_amount across investor_weights by capital_weight
+  post each allocation to ledger account "Capital Called Receivable"
+}
+
+rule "Threshold Distribution" {
+  description: "pay out distributable through the named waterfall"
+
+  let gross = USD 500,000
+
+  when gross > USD 0 then
+    distribute gross through waterfall "Linear Distribution"
+}

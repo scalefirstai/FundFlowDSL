@@ -1,0 +1,10 @@
+rule "Capital Call Allocation" {
+  description: "Allocate capital call across investors pro-rata to unfunded commitment"
+  applies to: fund "Beta PE Fund III"
+
+  let call_amount = USD 50,000,000
+  let basis       = unfunded commitment of investor as of call date
+
+  allocate call_amount across investors of fund by basis
+  post each allocation to ledger account "Capital Called Receivable"
+}

@@ -1,0 +1,4 @@
+rule "Sum By" {
+  let total = sum of fee by share class
+  let raw_total = sum of fee
+}

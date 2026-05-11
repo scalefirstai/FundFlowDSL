@@ -1,0 +1,5 @@
+import fundflow.stdlib.fees
+
+rule "After Import" {
+  description: "imports come before rules"
+}

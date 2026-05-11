@@ -1,0 +1,3 @@
+rule "Applies No Target" {
+  applies to:
+}

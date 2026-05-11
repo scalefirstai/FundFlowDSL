@@ -1,0 +1,3 @@
+rule "Missing Open Brace"
+  description: "no opening brace"
+}

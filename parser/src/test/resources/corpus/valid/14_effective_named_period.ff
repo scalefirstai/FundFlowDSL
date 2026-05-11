@@ -1,0 +1,3 @@
+rule "Quarter Period" {
+  effective: Q1 2026
+}

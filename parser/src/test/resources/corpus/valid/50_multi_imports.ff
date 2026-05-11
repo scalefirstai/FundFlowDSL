@@ -1,0 +1,9 @@
+module fundflow.examples.full
+
+import fundflow.stdlib.fees
+import fundflow.stdlib.allocations
+import fundflow.stdlib.waterfalls
+
+rule "Uses Multiple Imports" {
+  description: "compose stdlib pieces"
+}

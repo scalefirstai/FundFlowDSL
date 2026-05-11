@@ -1,0 +1,3 @@
+rule "Description Missing Colon" {
+  description "no colon between label and value"
+}

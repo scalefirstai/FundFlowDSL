@@ -1,0 +1,3 @@
+rule "Publish Missing Subject" {
+  publish
+}

@@ -1,0 +1,4 @@
+rule "Let Percentage" {
+  let mgmt = 1.5%
+  let perf = 20%
+}

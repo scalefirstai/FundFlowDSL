@@ -1,0 +1,4 @@
+schedule "Quarterly Crystallization" {
+  description: "fee crystallization on quarter-ends"
+  effective: from 2026-01-01
+}

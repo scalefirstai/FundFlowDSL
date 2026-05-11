@@ -1,0 +1,3 @@
+rule "Leading Operator" {
+  let x = + 5
+}

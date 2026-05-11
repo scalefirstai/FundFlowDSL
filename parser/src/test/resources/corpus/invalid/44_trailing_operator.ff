@@ -1,0 +1,3 @@
+rule "Trailing Operator" {
+  let x = a +
+}

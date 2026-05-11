@@ -1,0 +1,3 @@
+rule "Effective From Date" {
+  effective: from 2026-01-01
+}

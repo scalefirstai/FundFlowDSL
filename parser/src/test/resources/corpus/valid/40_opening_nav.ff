@@ -1,0 +1,3 @@
+rule "Opening NAV" {
+  let basis = opening nav of share class
+}

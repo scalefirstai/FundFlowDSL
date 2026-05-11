@@ -1,0 +1,3 @@
+rule "Unmatched Quote {
+  description: "the rule name string never closes"
+}

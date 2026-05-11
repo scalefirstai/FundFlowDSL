@@ -1,0 +1,5 @@
+module fundflow.examples.basic
+
+rule "After Module" {
+  description: "rules can follow a module declaration"
+}

@@ -1,0 +1,4 @@
+code,name,strategy,inception_nav,mgmt_fee_pct,dist_policy
+EQGF,Equity Growth Fund,Equity,10,0.015,Quarterly
+BALF,Balanced Advantage,Hybrid,10,0.0125,Quarterly
+INCF,Income Plus Fund,Debt,10,0.0075,Quarterly

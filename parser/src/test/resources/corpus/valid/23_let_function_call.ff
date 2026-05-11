@@ -1,0 +1,4 @@
+rule "Let Functions" {
+  let lower = max(0, gross_return - hurdle_amount)
+  let cap = min(excess, above_hwm)
+}

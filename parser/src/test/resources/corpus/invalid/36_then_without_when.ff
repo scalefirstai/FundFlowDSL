@@ -1,0 +1,3 @@
+rule "Stray Then" {
+  then publish fee
+}

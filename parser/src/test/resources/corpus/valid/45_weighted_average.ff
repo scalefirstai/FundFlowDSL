@@ -1,0 +1,3 @@
+rule "Weighted Avg" {
+  let warr = weighted average return weighted by capital
+}

@@ -1,0 +1,5 @@
+let global_constant = 1.5%
+
+rule "After Stray Let" {
+  description: "let must be inside a rule body"
+}

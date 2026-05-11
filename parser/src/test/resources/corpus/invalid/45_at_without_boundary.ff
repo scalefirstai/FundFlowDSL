@@ -1,0 +1,3 @@
+rule "At Without Boundary" {
+  let x = nav at of period
+}

@@ -1,0 +1,14 @@
+rule "Math Functions" {
+  let abs_value     = abs(net_return)
+  let rounded       = round(fee, 2)
+  let ceiled        = ceiling(units)
+  let floored       = floor(units)
+  let truncated     = truncate(allocation)
+  let modulus       = mod(total, 100)
+  let squared       = power(base, 2)
+  let root          = sqrt(variance)
+  let direction     = sign(delta)
+  let cap           = max(0, gross_return - hurdle)
+  let smaller       = min(excess, above_hwm)
+  let multi_max     = max(a, b, c, d, e)
+}

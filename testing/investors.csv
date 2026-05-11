@@ -1,0 +1,26 @@
+id,name,type,tax_class,pref,pan
+INV001,Aarav Mehta,Individual,Resident,Cash,ABCDE1234F
+INV002,Priya Sharma,Individual,Resident,Reinvest,ABCDE2234G
+INV003,Rohan Iyer,Individual,Resident,Cash,ABCDE3234H
+INV004,Sneha Kapoor,Individual,NRI,Cash,ABCDE4234J
+INV005,Vikram Singh,Individual,Resident,Reinvest,ABCDE5234K
+INV006,Anita Desai,Individual,Senior,Cash,ABCDE6234L
+INV007,Karan Bhat,Individual,Resident,Cash,ABCDE7234M
+INV008,Meera Krishnan,Individual,NRI,Reinvest,ABCDE8234N
+INV009,Arjun Patel,Individual,Resident,Cash,ABCDE9234P
+INV010,Divya Rao,Individual,Senior,Reinvest,ABCDF1234Q
+INV011,Acme Capital LLP,Corporate,Domestic Co,Cash,AABCA1111R
+INV012,Helios Trading Pvt,Corporate,Domestic Co,Cash,AABCH2222S
+INV013,Northwind Holdings,Corporate,Domestic Co,Reinvest,AABCN3333T
+INV014,Sterling Family Trust,Trust,Trust,Cash,AABTS4444U
+INV015,Pinnacle Wealth Trust,Trust,Trust,Reinvest,AABTP5555V
+INV016,Banyan Endowment,Trust,Trust Exempt,Cash,AABTB6666W
+INV017,Emerald Pension Fund,Trust,Trust Exempt,Reinvest,AABTE7777X
+INV018,Rahul Verma,Individual,Resident,Cash,ABCDG1234Y
+INV019,Sanya Joshi,Individual,Resident,Reinvest,ABCDG2234Z
+INV020,Devansh Roy,Individual,NRI,Cash,ABCDG3234A
+INV021,Ishaan Pillai,Individual,Resident,Reinvest,ABCDG4234B
+INV022,Maya Reddy,Individual,Senior,Cash,ABCDG5234C
+INV023,Quartz Advisors LLP,Corporate,Domestic Co,Reinvest,AABCQ8888D
+INV024,Lotus Holdings Pte,Corporate,Foreign Co,Cash,FFFCL9999E
+INV025,Banyan Tree Fund Ltd,Corporate,Foreign Co,Reinvest,FFFCB1010F

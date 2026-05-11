@@ -1,0 +1,2 @@
+rule "Unmatched Brace" {
+  description: "missing closing brace"

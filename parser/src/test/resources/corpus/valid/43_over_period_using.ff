@@ -1,0 +1,4 @@
+rule "Over Period Using" {
+  let interest = principal * rate over period using actual/365
+  let bare_over = principal over period
+}

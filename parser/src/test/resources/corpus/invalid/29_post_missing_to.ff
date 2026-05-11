@@ -1,0 +1,3 @@
+rule "Post Missing To" {
+  post fee ledger account "Mgmt Fee"
+}

@@ -1,0 +1,3 @@
+rule "Accrue With DC Literal" {
+  accrue 1.5% per annum on opening_nav using actual/365
+}

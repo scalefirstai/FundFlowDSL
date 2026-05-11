@@ -1,0 +1,28 @@
+# Secrets — never commit
+.env
+.env.*
+*.secret
+
+# Maven build output
+target/
+*.class
+
+# macOS metadata
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+build/
+out/
+
+# Logs and transient files
+*.log
+*.tmp
+hs_err_pid*.log

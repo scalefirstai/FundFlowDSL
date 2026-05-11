@@ -1,0 +1,14 @@
+// Synthetic management-fee accrual: every reference resolves either to a
+// let-binding or to a value supplied by the test's MapDataSource.
+rule "Daily Mgmt Fee" {
+  description: "1.5% per annum on opening NAV, accrued daily, posted to liability"
+  effective: from 2026-03-01
+
+  let rate      = 1.5% per annum
+  let basis     = opening nav
+  let day_count = actual/365
+
+  accrue rate on basis using day_count
+  post to ledger account "Management Fee Payable"
+    with narrative "Daily mgmt fee accrual"
+}

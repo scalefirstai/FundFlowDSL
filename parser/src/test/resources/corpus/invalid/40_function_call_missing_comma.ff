@@ -1,0 +1,3 @@
+rule "Func Empty First Arg" {
+  let x = max(, above_hwm)
+}

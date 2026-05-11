@@ -1,0 +1,3 @@
+rule "Post With Missing Narrative Keyword" {
+  post fee to ledger account "Mgmt Fee" with "Daily accrual"
+}

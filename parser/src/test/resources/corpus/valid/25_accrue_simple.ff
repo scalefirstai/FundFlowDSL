@@ -1,0 +1,3 @@
+rule "Accrue Simple" {
+  accrue rate on basis using day_count
+}

@@ -1,0 +1,7 @@
+rule "Stats Functions" {
+  let n            = count(positions)
+  let mean_return  = average(monthly_returns)
+  let p50          = median(monthly_returns)
+  let var_sample   = variance(monthly_returns)
+  let sd_sample    = stdev(monthly_returns)
+}

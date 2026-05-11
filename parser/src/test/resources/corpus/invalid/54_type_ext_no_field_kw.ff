@@ -1,0 +1,3 @@
+type extension PeFund extends Fund {
+  commitment_period: Period
+}

@@ -1,0 +1,20 @@
+rule "Performance Fee" {
+  description: "20% over 8% hurdle with high-water mark, crystallized annually"
+  applies to: share class "Class A" of fund "Alpha Master Fund LP"
+  effective: from 2026-01-01
+
+  let hurdle_rate  = 8% per annum
+  let perf_rate    = 20%
+  let period       = current crystallization period
+
+  let gross_return  = nav at end of period - nav at start of period
+  let hurdle_amount = nav at start of period * hurdle_rate over period using actual/365
+  let excess        = max(0, gross_return - hurdle_amount)
+  let above_hwm     = max(0, nav at end of period - high water mark)
+
+  let fee = perf_rate * min(excess, above_hwm)
+
+  when fee > USD 0 then
+    post fee to ledger account "Performance Fee Payable"
+      with narrative "Annual perf fee crystallization"
+}

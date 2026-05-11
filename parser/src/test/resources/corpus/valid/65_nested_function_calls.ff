@@ -1,0 +1,5 @@
+rule "Nested Function Calls" {
+  let nested  = round(max(0, net_return - hurdle), 2)
+  let complex = abs(npv(rate, cashflows)) + sqrt(variance(returns))
+  let date_pv = npv(rate, fund_cashflows) * power(1 + rate, datediff(today_date, settle_date, "days") / 365)
+}

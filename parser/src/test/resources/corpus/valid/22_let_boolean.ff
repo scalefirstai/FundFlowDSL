@@ -1,0 +1,5 @@
+rule "Let Boolean" {
+  let both = a and b
+  let either = a or b
+  let inverse = not a
+}

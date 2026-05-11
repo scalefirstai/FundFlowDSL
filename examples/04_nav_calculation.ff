@@ -1,0 +1,14 @@
+rule "Daily NAV Strike" {
+  description: "Standard NAV per unit calculation"
+  applies to: all share classes of fund "Alpha Master Fund LP"
+  effective: from inception
+
+  let gross_assets   = sum of position market value as of valuation date
+  let liabilities    = sum of accrued expenses + payables as of valuation date
+  let net_assets     = gross_assets - liabilities
+  let units          = units outstanding as of valuation date
+
+  let nav_per_unit = net_assets / units
+
+  publish nav as of valuation date
+}

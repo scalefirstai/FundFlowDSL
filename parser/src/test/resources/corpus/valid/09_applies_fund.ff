@@ -1,0 +1,3 @@
+rule "Whole Fund" {
+  applies to: fund "Beta PE Fund III"
+}

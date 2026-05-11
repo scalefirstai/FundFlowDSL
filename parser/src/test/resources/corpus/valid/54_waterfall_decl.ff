@@ -1,0 +1,4 @@
+waterfall "European Waterfall" {
+  let pref_rate = 8% per annum
+  distribute distributable through waterfall "Sub-Waterfall"
+}

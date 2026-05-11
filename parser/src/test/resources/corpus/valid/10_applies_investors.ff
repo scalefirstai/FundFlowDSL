@@ -1,0 +1,3 @@
+rule "Investors" {
+  applies to: investors of fund "Beta PE Fund III"
+}

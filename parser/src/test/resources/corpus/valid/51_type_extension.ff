@@ -1,0 +1,5 @@
+type extension PrivateEquityFund extends Fund {
+  field commitment_period: Period
+  field investment_period_end: BusinessDate
+  field gp_commitment: Percentage
+}

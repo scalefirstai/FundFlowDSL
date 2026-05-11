@@ -1,0 +1,11 @@
+rule "First" {
+  description: "first rule in file"
+}
+
+rule "Second" {
+  description: "second rule"
+}
+
+rule "Third" {
+  description: "third rule"
+}

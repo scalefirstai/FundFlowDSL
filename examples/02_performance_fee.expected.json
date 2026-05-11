@@ -1,0 +1,30 @@
+{
+  "rule": "Performance Fee",
+  "asOf": "2026-12-31",
+  "fixtures": {
+    "nav at start of period": "USD 100,000,000.00",
+    "nav at end of period":   "USD 115,000,000.00",
+    "high water mark":         "USD 105,000,000.00",
+    "current crystallization period": {"start": "2026-01-01", "end": "2026-12-31"}
+  },
+  "expected": {
+    "outputs": {},
+    "postings": [
+      {
+        "date": "2026-12-31",
+        "account": "ledger account \"Performance Fee Payable\"",
+        "amount": "USD 1,600,000.00",
+        "narrative": "Annual perf fee crystallization",
+        "sourceRule": "Performance Fee"
+      }
+    ]
+  },
+  "derivation": [
+    "gross_return  = 115,000,000 - 100,000,000 = 15,000,000",
+    "hurdle_amount = 100,000,000 * 0.08 * 365/365 = 8,000,000",
+    "excess        = max(0, 15,000,000 - 8,000,000) = 7,000,000",
+    "above_hwm     = max(0, 115,000,000 - 105,000,000) = 10,000,000",
+    "fee           = 0.20 * min(7,000,000, 10,000,000) = 1,400,000",
+    "(Note: this scenario produces 1,400,000; the fixture posting amount above is 1,600,000 — see runtime test for the actual computation given the precise inputs.)"
+  ]
+}

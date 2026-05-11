@@ -1,0 +1,4 @@
+rule "Parens" {
+  let total = (a + b) * (c - d)
+  let nested = ((x + y) - (z + w)) / 2
+}

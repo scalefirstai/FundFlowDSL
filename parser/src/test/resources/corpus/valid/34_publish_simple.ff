@@ -1,0 +1,3 @@
+rule "Publish Result" {
+  publish result
+}

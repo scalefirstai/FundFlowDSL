@@ -1,0 +1,3 @@
+rule "Let Date" {
+  let strike_date = 2026-03-31
+}
